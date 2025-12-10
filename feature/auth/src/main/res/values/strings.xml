@@ -2,4 +2,5 @@
 <resources>
     <string name="feature_auth_start_kakao">카카오로 시작하기</string>
     <string name="feature_auth_login_error">로그인 중 오류가 발생했습니다. 문제가 계속되면 관리자에게 문의해주세요.</string>
+    <string name="feature_auth_signup">회원가입</string>
 </resources>
