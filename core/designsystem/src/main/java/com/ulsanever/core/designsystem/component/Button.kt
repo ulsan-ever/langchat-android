@@ -52,20 +52,20 @@ fun LangChatButton(
  * LangChat 텍스트, 아이콘 버튼
  *
  * @param onClick 버튼 클릭 시 호출되는 콜백
+ * @param text 버튼 텍스트 내용
  * @param modifier 버튼 modifier
  * @param enabled 버튼 활성화 여부
- * @param text 버튼 텍스트 내용
  * @param leadingIcon 버튼 아이콘. 'null' 이면 아이콘 없음
  */
 @Composable
 fun LangChatButton(
     onClick: () -> Unit,
+    text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(
         containerColor = MaterialTheme.colorScheme.onBackground,
     ),
-    text: String,
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
     LangChatButton(
