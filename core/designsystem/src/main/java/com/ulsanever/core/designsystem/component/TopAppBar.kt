@@ -1,72 +1,120 @@
 package com.ulsanever.core.designsystem.component
 
-import androidx.annotation.StringRes
+import androidx.annotation.DrawableRes
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
+import com.ulsanever.core.designsystem.R
 import com.ulsanever.core.designsystem.icon.LangChatIcons
 import com.ulsanever.core.designsystem.theme.LangChatTheme
 import com.ulsanever.core.designsystem.theme.ThemePreviews
 
+data class TopAppBarItem(
+    val icon: ImageVector,
+    val contentDescription: String?,
+    val onClick: () -> Unit,
+)
+
 /**
- * LangChat 상단바. Material 3 [CenterAlignedTopAppBar] 래핑
+ * LangChat 상단바. 제목이 가운데에 배치되어 있는 형태.
+ * Material 3 [CenterAlignedTopAppBar] 래핑
  *
- * @param navigationIcon 상단바 시작 부분 아이콘
- * @param navigationIconContentDescription 상단바 시작 부분 아이콘 설명. 아이콘만 존재하므로, 설명 필수
- * @param actionIcon 상단바 끝 부분 아이콘
- * @param actionIconContentDescription 상단바 끝 부분 아이콘 설명
+ * @param title 상단바 제목
  * @param modifier 상단바 modifier
- * @param colors 상단바 색상
- * @param onNavigationClick 상단바 시작 부분 아이콘 클릭 시 호출되는 콜백
- * @param onActionClick 상단바 끝 부분 아이콘 클릭 시 호출되는 콜백
+ * @param navigation 상단바 시작 부분 아이콘, 설명, 클릭 시 호출되는 콜백 아이템
+ * @param actions 상단바 끝 부분 아이콘, 설명, 클릭 시 호출되는 콜백 아이템 리스트
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LangChatTopAppBar(
-    @StringRes titleRes: Int,
+fun LangChatCenterAlignedTopAppBar(
+    title: String,
     modifier: Modifier = Modifier,
-    navigationIcon: ImageVector? = null,
-    navigationIconContentDescription: String? = null,
-    actionIcon: ImageVector? = null,
-    actionIconContentDescription: String? = null,
-    colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(),
-    onNavigationClick:() -> Unit = {},
-    onActionClick: () -> Unit = {},
+    navigation: TopAppBarItem? = null,
+    actions: List<TopAppBarItem> = emptyList(),
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(text = stringResource(id = titleRes)) },
+        title = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+            )
+        },
         navigationIcon = {
-            if (navigationIcon != null) {
-                IconButton(onClick = onNavigationClick) {
+            if (navigation != null) {
+                IconButton(onClick = navigation.onClick) {
                     Icon(
-                        imageVector = navigationIcon,
-                        contentDescription = navigationIconContentDescription,
-                        tint = MaterialTheme.colorScheme.onSurface,
+                        imageVector = navigation.icon,
+                        contentDescription = navigation.contentDescription,
+                        tint = MaterialTheme.colorScheme.onBackground,
                     )
                 }
             }
         },
         actions = {
-            IconButton(onClick = onActionClick) {
-                if (actionIcon != null) {
+            actions.forEach { action ->
+                IconButton(onClick = action.onClick) {
                     Icon(
-                        imageVector = actionIcon,
-                        contentDescription = actionIconContentDescription,
-                        tint = MaterialTheme.colorScheme.onSurface,
+                        imageVector = action.icon,
+                        contentDescription = action.contentDescription,
+                        tint = MaterialTheme.colorScheme.onBackground,
                     )
                 }
             }
         },
-        colors = colors,
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+        modifier = modifier,
+    )
+}
+
+/**
+ * LangChat 상단바. 왼쪽에 로고 이미지가 보이는 형태.
+ * Material 3 [TopAppBar] 래핑
+ *
+ * @param logoRes 로고 이미지 리소스 (ex: R.drawable.logo)
+ * @param modifier 상단바 modifier
+ * @param actions 상단바 끝 부분 아이콘, 설명, 클릭 시 호출되는 콜백 아이템 리스트
+ * @param onLogoClick 로고 이미지 클릭 시 호출되는 콜백
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LangChatBrandTopAppBar(
+    @DrawableRes logoRes: Int,
+    modifier: Modifier = Modifier,
+    actions: List<TopAppBarItem> = emptyList(),
+    onLogoClick: () -> Unit = {},
+) {
+    TopAppBar(
+        title = {},
+        navigationIcon = {
+            IconButton(onClick = onLogoClick) {
+                Icon(
+                    painter = painterResource(logoRes),
+                    contentDescription = "로고 이미지",
+                )
+            }
+        },
+        actions = {
+            actions.forEach { action ->
+                IconButton(onClick = action.onClick) {
+                    Icon(
+                        imageVector = action.icon,
+                        contentDescription = action.contentDescription,
+                        tint = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         modifier = modifier,
     )
 }
@@ -74,14 +122,54 @@ fun LangChatTopAppBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @ThemePreviews
 @Composable
-private fun LangChatTopAppBarPreview() {
+private fun LangChatCenterAlignedTopAppBarPreview() {
     LangChatTheme {
-        LangChatTopAppBar(
-            titleRes = android.R.string.untitled,
-            navigationIcon = LangChatIcons.Search,
-            navigationIconContentDescription = "Navigation icon",
-            actionIcon = LangChatIcons.Settings,
-            actionIconContentDescription = "Action icon",
-        )
+        LangChatBackground {
+            LangChatCenterAlignedTopAppBar(
+                title = "제목",
+                navigation = TopAppBarItem(
+                    icon = LangChatIcons.ArrowBack,
+                    contentDescription = "Navigation icon",
+                    onClick = {},
+                ),
+                actions = listOf(
+                    TopAppBarItem(
+                        icon = LangChatIcons.Settings,
+                        contentDescription = "Action icon",
+                        onClick = {},
+                    ),
+                    TopAppBarItem(
+                        icon = LangChatIcons.Search,
+                        contentDescription = "Action icon",
+                        onClick = {},
+                    )
+                ),
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@ThemePreviews
+@Composable
+private fun LangChatBrandTopAppBarPreview() {
+    LangChatTheme {
+        LangChatBackground {
+            LangChatBrandTopAppBar(
+                logoRes = R.drawable.ic_kakao_logo,
+                actions = listOf(
+                    TopAppBarItem(
+                        icon = LangChatIcons.Settings,
+                        contentDescription = "Action icon",
+                        onClick = {},
+                    ),
+                    TopAppBarItem(
+                        icon = LangChatIcons.Search,
+                        contentDescription = "Action icon",
+                        onClick = {},
+                    )
+                ),
+            )
+        }
     }
 }
