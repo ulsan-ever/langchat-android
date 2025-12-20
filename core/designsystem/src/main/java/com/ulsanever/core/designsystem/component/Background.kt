@@ -1,6 +1,5 @@
 package com.ulsanever.core.designsystem.component
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.material3.Surface
@@ -27,7 +26,7 @@ fun LangChatBackground(
     Surface(
         color = if (color == Color.Unspecified) Color.Transparent else color,
         tonalElevation = if (tonalElevation == Dp.Unspecified) 0.dp else tonalElevation,
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
     ) {
         // 중첩 tonal elevation 문제 해결
         CompositionLocalProvider(LocalAbsoluteTonalElevation provides 0.dp) {
