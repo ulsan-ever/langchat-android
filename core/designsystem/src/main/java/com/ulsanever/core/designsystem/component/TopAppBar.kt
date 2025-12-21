@@ -1,6 +1,7 @@
 package com.ulsanever.core.designsystem.component
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -97,7 +98,7 @@ fun LangChatBrandTopAppBar(
         title = {},
         navigationIcon = {
             IconButton(onClick = onLogoClick) {
-                Icon(
+                Image(
                     painter = painterResource(logoRes),
                     contentDescription = "로고 이미지",
                 )
