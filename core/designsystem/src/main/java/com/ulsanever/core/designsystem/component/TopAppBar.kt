@@ -87,7 +87,7 @@ fun LangChatCenterAlignedTopAppBar(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun LangChatBrandTopAppBar(
+fun LangChatBrandTopAppBar(
     @DrawableRes logoRes: Int,
     modifier: Modifier = Modifier,
     actions: List<TopAppBarItem> = emptyList(),
