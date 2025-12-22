@@ -2,6 +2,7 @@ package com.ulsanever.core.designsystem.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.ulsanever.core.designsystem.R
 import com.ulsanever.core.designsystem.icon.LangChatIcons
 import com.ulsanever.core.designsystem.theme.LangChatTheme
@@ -116,7 +118,7 @@ fun LangChatBrandTopAppBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = 16.dp),
     )
 }
 
